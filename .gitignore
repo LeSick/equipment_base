@@ -17,7 +17,15 @@ __pycache__/
 # Media and static files
 /media/
 staticfiles/
-static/
+
+# Ignore everything in static except JS files
+static/*
+!static/**/*.js
+!static/*.js
+
+# If you want to keep subfolders for JS (optional)
+# !static/js/
+# !static/js/**/*.js
 
 # Virtual environments
 env/
