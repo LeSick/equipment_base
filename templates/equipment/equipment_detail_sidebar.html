@@ -1,0 +1,28 @@
+<div class="col-md-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky mt-3">
+        <h5>Информация</h5>
+        <ul style="list-style: none; padding-left: 0;">
+            <li>Фото</li>
+            <li>
+                Ремонты
+                <ul style="list-style: none; padding-left: 1em;">
+                    {% for pos in positions %}
+                        <li>
+                            <a href="{% url 'repairs:repairs_list' %}?equipment_pos={{ pos.id }}">
+                                {{ pos.pos }}
+                            </a>
+                        </li>
+                    {% empty %}
+                        <li>Нет позиций</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li>Запчасти и расходники</li>
+                <ul style="list-style: none; padding-left: 1em;">
+                    <li>Позиция 1</li>
+                    <li>Позиция 2</li>
+                    <li>Позиция 3</li>
+                </ul>
+        </ul>
+    </div>
+</div>

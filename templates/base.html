@@ -1,0 +1,40 @@
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipment Base</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .flex-grow-1 {
+            flex: 1 0 auto;
+        }
+        footer {
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    {% include "header.html" %}
+    <div class="container-fluid flex-grow-1">
+        <div class="row h-100" style="min-height: 0;">
+            {% block sidebar %}
+                {% include "sidebar.html" %}
+            {% endblock %}
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+    {% include "footer.html" %}
+</body>
+</html>

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+    {% include "equipment/equipment_sidebar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <h2>
+                {% if selected_entity %}
+                    Equipment for {{ selected_entity.name }}
+                {% else %}
+                    Equipment List
+                {% endif %}
+            </h2>
+            <ul>
+                {% for eq_name in equipment_names %}
+                    <li>
+                        <a href="{% url 'equipment:equipment_detail' eq_name.id %}">
+                            {{ eq_name.name }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>No equipment found.</li>
+                {% endfor %}
+            </ul>
+        </main>
+    </div>
+</div>
+{% endblock %}

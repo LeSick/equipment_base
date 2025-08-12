@@ -1,0 +1,150 @@
+{% load static %}
+<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky">
+        <!-- Legal Entity Dropdown -->
+        <div class="dropdown mt-3">
+            <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" type="button" id="legalEntityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="d-inline-block text-truncate" style="max-width: 100%;">
+                    {% if selected_entity %}
+                        {{ selected_entity.name }}
+                    {% else %}
+                        Все юридические лица
+                    {% endif %}
+                </span>
+            </button>
+            <ul class="dropdown-menu w-100" aria-labelledby="legalEntityDropdown">
+                <li>
+                    <a class="dropdown-item {% if not selected_entity %}active{% endif %}" href="{% url 'equipment:equipment_list' %}">
+                        Все юридические лица
+                    </a>
+                </li>
+                {% for entity in legal_entities %}
+                    <li>
+                        <a class="dropdown-item text-truncate {% if selected_entity and entity.id == selected_entity.id %}active{% endif %}" style="max-width: 100%;" title="{{ entity.name }}"
+                           href="{% url 'equipment:equipment_list' entity.id|default:0 %}">
+                            {{ entity.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Department Dropdown -->
+        {% if departments %}
+        <div class="dropdown mt-3">
+            <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" type="button" id="departmentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="d-inline-block text-truncate" style="max-width: 100%;">
+                    {% if selected_department %}
+                        {{ selected_department.name }}
+                    {% else %}
+                        Все производственные подразделения
+                    {% endif %}
+                </span>
+            </button>
+            <ul class="dropdown-menu w-100" aria-labelledby="departmentDropdown">
+                <li>
+                    <a class="dropdown-item {% if not selected_department %}active{% endif %}" href="{% url 'equipment:equipment_list' selected_entity.id|default:0 selected_class.id|default:0 selected_subclass.id|default:0 0 %}">
+                        Все производственные подразделения
+                    </a>
+                </li>
+                {% for department in departments %}
+                    <li>
+                        <a class="dropdown-item text-truncate {% if selected_department and department.id == selected_department.id %}active{% endif %}" style="max-width: 100%;" title="{{ department.name }}"
+                           href="{% url 'equipment:equipment_list' selected_entity.id|default:0 selected_class.id|default:0 selected_subclass.id|default:0 department.id|default:0 %}">
+                            {{ department.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Shop Dropdown -->
+        {% if shops %}
+        <div class="dropdown mt-3">
+            <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" type="button" id="shopDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="d-inline-block text-truncate" style="max-width: 100%;">
+                    {% if selected_shop %}
+                        {{ selected_shop.name }}
+                    {% else %}
+                        Все цеха
+                    {% endif %}
+                </span>
+            </button>
+            <ul class="dropdown-menu w-100" aria-labelledby="shopDropdown">
+                <li>
+                    <a class="dropdown-item {% if not selected_shop %}active{% endif %}" href="{% url 'equipment:equipment_list' selected_entity.id|default:0 selected_class.id|default:0 selected_subclass.id|default:0 selected_department.id|default:0 0 %}">
+                        Все цеха
+                    </a>
+                </li>
+                {% for shop in shops %}
+                    <li>
+                        <a class="dropdown-item text-truncate {% if selected_shop and shop.id == selected_shop.id %}active{% endif %}" style="max-width: 100%;" title="{{ shop.name }}"
+                           href="{% url 'equipment:equipment_list' selected_entity.id|default:0 selected_class.id|default:0 selected_subclass.id|default:0 selected_department.id|default:0 shop.id|default:0 %}">
+                            {{ shop.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Equipment Class Dropdown -->
+        <div class="dropdown mt-3">
+            <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" type="button" id="equipClassDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="d-inline-block text-truncate" style="max-width: 100%;">
+                    {% if selected_class %}
+                        {{ selected_class.name }}
+                    {% else %}
+                        Все классы оборудования
+                    {% endif %}
+                </span>
+            </button>
+            <ul class="dropdown-menu w-100" aria-labelledby="equipClassDropdown">
+                <li>
+                    <a class="dropdown-item {% if not selected_class %}active{% endif %}" href="{% url 'equipment:equipment_list' selected_entity.id|default:0 0 selected_subclass.id|default:0 selected_department.id|default:0 selected_shop.id|default:0 %}">
+                        Все классы оборудования
+                    </a>
+                </li>
+                {% for eqclass in equip_classes %}
+                    <li>
+                        <a class="dropdown-item text-truncate {% if selected_class and eqclass.id == selected_class.id %}active{% endif %}" style="max-width: 100%;" title="{{ eqclass.name }}"
+                           href="{% url 'equipment:equipment_list' selected_entity.id|default:0 eqclass.id|default:0 selected_subclass.id|default:0 selected_department.id|default:0 selected_shop.id|default:0 %}">
+                            {{ eqclass.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Equipment Subclass Dropdown: only if there are subclasses -->
+        {% if equip_subclasses %}
+        <div class="dropdown mt-3">
+            <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" type="button" id="equipSubclassDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="d-inline-block text-truncate" style="max-width: 100%;">
+                    {% if selected_subclass %}
+                        {{ selected_subclass.name }}
+                    {% else %}
+                        Все подклассы оборудования
+                    {% endif %}
+                </span>
+            </button>
+            <ul class="dropdown-menu w-100" aria-labelledby="equipSubclassDropdown">
+                <li>
+                    <a class="dropdown-item {% if not selected_subclass %}active{% endif %}" href="{% url 'equipment:equipment_list' selected_entity.id|default:0 selected_class.id|default:0 0 selected_department.id|default:0 selected_shop.id|default:0 %}">
+                        Все подклассы оборудования
+                    </a>
+                </li>
+                {% for subclass in equip_subclasses %}
+                    <li>
+                        <a class="dropdown-item text-truncate {% if selected_subclass and subclass.id == selected_subclass.id %}active{% endif %}" style="max-width: 100%;" title="{{ subclass.name }}"
+                           href="{% url 'equipment:equipment_list' selected_entity.id|default:0 selected_class.id|default:0 subclass.id selected_department.id|default:0 selected_shop.id|default:0 %}">
+                            {{ subclass.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</nav>

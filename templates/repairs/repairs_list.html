@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+    {% include 'repairs/repairs_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Repairs List</h1>
+    {% include 'includes/pagination.html' %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Position</th>
+                <th>Equipment Name</th>
+                <th>Shop Name</th>
+                <th>Legal Entity</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Reason</th>
+                <th>Job</th>
+                <th>Duration (hrs)</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for repair in page_obj %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ repair.equipment_pos.pos }}</td>
+                <td>{{ repair.equipment_pos.equipment_name.name }}</td>
+                <td>{{ repair.equipment_pos.shop.name }}</td>
+                <td>{{ repair.legal_entity }}</td>
+                <td>{{ repair.start }}</td>
+                <td>{{ repair.end }}</td>
+                <td>{{ repair.reason }}</td>
+                <td>{{ repair.job }}</td>
+                <td>{{ repair.duration }}</td>
+                <td>{{ repair.note }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="11" class="text-center">No repairs found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% include 'includes/pagination.html' %}
+</div>
+{% endblock %}

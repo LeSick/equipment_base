@@ -1,0 +1,26 @@
+{% regroup positions by shop as shop_list %}
+{% with breadcrumb_shown=False %}
+    {% for shop_group in shop_list %}
+        {% regroup shop_group.list by department as dept_list %}
+        {% for dept_group in dept_list %}
+            {% regroup dept_group.list by legal_entity as entity_list %}
+            {% for entity_group in entity_list %}
+                {% if not breadcrumb_shown %}
+                    <nav aria-label="breadcrumb" class="mb-2">
+                      <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'equipment:equipment_list' entity_group.grouper.id %}">
+                                {{ entity_group.grouper }}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">{{ dept_group.grouper }}</li>
+                        <li class="breadcrumb-item">{{ shop_group.grouper }}</li>
+                      </ol>
+                    </nav>
+                    {% with breadcrumb_shown=True %}
+                    {% endwith %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+{% endwith %}

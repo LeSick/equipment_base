@@ -1,0 +1,30 @@
+<div class="dropdown mt-3">
+    <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" 
+            type="button" 
+            id="{{ dropdown_id }}" 
+            data-bs-toggle="dropdown" 
+            aria-expanded="false">
+        <span class="d-inline-block text-truncate" style="max-width: 100%;">
+            {% if selected_item %}
+                {{ selected_item.name }}
+            {% else %}
+                {{ default_label }}
+            {% endif %}
+        </span>
+    </button>
+    <ul class="dropdown-menu w-100" aria-labelledby="{{ dropdown_id }}">
+        <li>
+            <a class="dropdown-item {% if not selected_item %}active{% endif %}" href="{{ default_url }}">
+                {{ default_label }}
+            </a>
+        </li>
+        {% for item in items %}
+            <li>
+                <a class="dropdown-item text-truncate {% if selected_item and item.id == selected_item.id %}active{% endif %}" 
+                   href="{{ item.url }}">
+                    {{ item.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

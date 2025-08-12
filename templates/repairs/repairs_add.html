@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block sidebar %}{% endblock %}
+
+{% block content %}
+<style>
+    /* Remove Bootstrap grid constraints for this page */
+    main {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    body > .container-fluid > .row {
+        display: block !important;
+    }
+    /* Set narrow columns for dates and duration */
+    th.start-col, td.start-col,
+    th.end-col, td.end-col {
+        width: 20ch;
+        min-width: 20ch;
+        max-width: 24ch;
+        white-space: nowrap;
+    }
+    th.duration-col, td.duration-col {
+        width: 8ch;
+        min-width: 6ch;
+        max-width: 8ch;
+        white-space: nowrap;
+    }
+    /* Control width for Legal entity, Shop and Position columns */
+    th.legal-entity-col, td.legal-entity-col {
+        width: 14ch;
+        min-width: 12ch;
+        max-width: 22ch;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    th.shop-col, td.shop-col {
+        width: 14ch;
+        min-width: 10ch;
+        max-width: 18ch;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    th.position-col, td.position-col {
+        width: 12ch;
+        min-width: 8ch;
+        max-width: 16ch;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /* Make reason, job, note wider */
+    th.reason-col, td.reason-col,
+    th.job-col, td.job-col,
+    th.note-col, td.note-col {
+        min-width: 18ch;
+        width: 100%;
+    }
+    /* Ensure dropdowns fit inside their columns */
+    td.legal-entity-col select,
+    td.shop-col select,
+    td.position-col select {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+</style>
+<div class="container-fluid mt-4 px-4">
+    <h1 class="mb-4">Add Repair Entries</h1>
+    <form method="post" id="repairs-formset-form">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm align-middle" id="repairs-table" style="font-size:0.95rem;">
+                <thead class="table-light">
+                    <tr>
+                        <th class="legal-entity-col" style="white-space:nowrap;">Legal entity</th>
+                        <th class="shop-col">Shop</th>
+                        <th class="position-col">Position</th>
+                        <th class="start-col">Start</th>
+                        <th class="end-col">End</th>
+                        <th class="duration-col">Duration</th>
+                        <th class="reason-col">Reason</th>
+                        <th class="job-col">Job</th>
+                        <th class="note-col">Note</th>
+                    </tr>
+                </thead>
+                <tbody id="formset-container">
+                    {% for form in formset %}
+                    <tr class="form-row">
+                        <td class="legal-entity-col">
+                            {{ form.legal_entity }}
+                            {% if form.legal_entity.errors %}
+                                <div class="text-danger small">{{ form.legal_entity.errors|striptags }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="shop-col">
+                            {{ form.shop }}
+                            {% if form.shop.errors %}
+                                <div class="text-danger small">{{ form.shop.errors|striptags }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="position-col">
+                            {{ form.equipment_pos }}
+                            {% if form.equipment_pos.errors %}
+                                <div class="text-danger small">{{ form.equipment_pos.errors|striptags }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="start-col">
+                            {{ form.start }}
+                            {% if form.start.errors %}
+                                <div class="text-danger small">{{ form.start.errors|striptags }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="end-col">
+                            {{ form.end }}
+                            {% if form.end.errors %}
+                                <div class="text-danger small">{{ form.end.errors|striptags }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="duration-col">
+                            <input type="text" class="form-control duration-field" name="duration" readonly style="background:#f8f9fa;">
+                        </td>
+                        <td class="reason-col">
+                            {{ form.reason }}
+                            {% if form.reason.errors %}
+                                <div class="text-danger small">{{ form.reason.errors|striptags }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="job-col">
+                            {{ form.job }}
+                            {% if form.job.errors %}
+                                <div class="text-danger small">{{ form.job.errors|striptags }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="note-col">
+                            {{ form.note }}
+                            {% if form.note.errors %}
+                                <div class="text-danger small">{{ form.note.errors|striptags }}</div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-secondary" id="add-form-btn">One more entry</button>
+            <button type="submit" class="btn btn-primary">Save All</button>
+            <a href="{% url 'repairs:repairs_list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+<script src="{% static 'repairs/js/repairs_add_formset.js' %}"></script>
+<script src="{% static 'repairs/js/repairs_add_dynamic.js' %}"></script>
+{% endblock %}

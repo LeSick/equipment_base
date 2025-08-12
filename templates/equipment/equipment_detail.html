@@ -1,0 +1,41 @@
+<!-- equipment_detail.html -->
+{% extends "base.html" %}
+
+{% block sidebar %}
+    {% include "equipment/equipment_detail_sidebar.html" with positions=positions %}
+{% endblock %}
+
+{% block content %}
+    {% include "equipment/equipment_breadcrumb.html" %}
+    <h2>{{ equipment_name.name }}</h2>
+    <div>
+        <strong>Класс:</strong>
+        {{ equipment_class.name|default:"—" }}
+    </div>
+    <div>
+        <strong>Подкласс:</strong>
+        {{ equipment_subclass.name|default:"—" }}
+    </div>
+    {% regroup positions by shop as shop_list %}
+    {% for shop_group in shop_list %}
+        {% regroup shop_group.list by department as dept_list %}
+        {% for dept_group in dept_list %}
+            {% regroup dept_group.list by branch as branch_list %}
+            {% for branch_group in branch_list %}
+                {% regroup branch_group.list by legal_entity as entity_list %}
+                {% for entity_group in entity_list %}
+                    <div class="mb-3 p-2">
+                        <strong>Цех:</strong> {{ shop_group.grouper }}<br>
+                        <strong>Производственный участок:</strong> {{ dept_group.grouper }}<br>
+                        <strong>Юридическое лицо:</strong> {{ entity_group.grouper }}<br>
+                        <strong>Номер позиции(й):</strong>
+                        {% for pos in entity_group.list %}
+                            {{ pos.pos }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+    <a href="{% url 'equipment:equipment_edit' equipment_name.id %}" class="btn btn-primary mt-3">Редактировать</a>
+{% endblock %}
