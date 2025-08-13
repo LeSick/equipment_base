@@ -54,7 +54,7 @@ htmlcov/
 .nox/
 .pytest_cache/
 coverage.xml
-.ipynb
+*.ipynb
 
 # MyPy
 .mypy_cache/
