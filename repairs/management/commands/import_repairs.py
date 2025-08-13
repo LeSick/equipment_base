@@ -7,12 +7,20 @@ from equipment.models import EquipmentPos, LegalEntity, Shop
 class Command(BaseCommand):
     help = "Import repairs data from a CSV file into the Repairs table"
 
-    def handle(self, *args, **kwargs):
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--csv_file_path',
+            type=str,
+            default='/Users/alex_d/Dev/equipment_base/data/csv_4_DB_processed.csv',
+            help='Path to the CSV file to import'
+        )
+
+    def handle(self, *args, **options):
         # Delete all existing Repairs records
         Repairs.objects.all().delete()
         self.stdout.write("All existing Repairs records deleted.")
 
-        csv_file_path = '/Users/alex_d/Dev/equipment_base/data/csv_4_DB_processed.csv'
+        csv_file_path = options['csv_file_path']
         legal_entity_name = 'ООО "Русфорест Магистральный"'  # Legal entity is the same for all rows
 
         try:
