@@ -72,7 +72,7 @@
     }
 </style>
 <div class="container-fluid mt-4 px-4">
-    <h1 class="mb-4">Add Repair Entries</h1>
+    <h1 class="mb-4">Добавить запись в журнал ремонтов</h1>
     <form method="post" id="repairs-formset-form">
         {% csrf_token %}
         {{ formset.management_form }}
@@ -80,15 +80,15 @@
             <table class="table table-bordered table-sm align-middle" id="repairs-table" style="font-size:0.95rem;">
                 <thead class="table-light">
                     <tr>
-                        <th class="legal-entity-col" style="white-space:nowrap;">Legal entity</th>
-                        <th class="shop-col">Shop</th>
-                        <th class="position-col">Position</th>
-                        <th class="start-col">Start</th>
-                        <th class="end-col">End</th>
-                        <th class="duration-col">Duration</th>
-                        <th class="reason-col">Reason</th>
-                        <th class="job-col">Job</th>
-                        <th class="note-col">Note</th>
+                        <th class="legal-entity-col" style="white-space:nowrap;">Филиал</th>
+                        <th class="shop-col">Цех</th>
+                        <th class="position-col">Позиция</th>
+                        <th class="start-col">Начало</th>
+                        <th class="end-col">Окончание</th>
+                        <th class="duration-col">Длительность</th>
+                        <th class="reason-col">Причина ремонта</th>
+                        <th class="job-col">Проведенные работы</th>
+                        <th class="note-col">Примечание</th>
                     </tr>
                 </thead>
                 <tbody id="formset-container">
@@ -151,9 +151,9 @@
             </table>
         </div>
         <div class="d-flex gap-2">
-            <button type="button" class="btn btn-secondary" id="add-form-btn">One more entry</button>
-            <button type="submit" class="btn btn-primary">Save All</button>
-            <a href="{% url 'repairs:repairs_list' %}" class="btn btn-secondary">Cancel</a>
+            <button type="button" class="btn btn-secondary" id="add-form-btn">Еще одна запись</button>
+            <button type="submit" class="btn btn-primary">Сохранить всё</button>
+            <a href="{% url 'repairs:repairs_list' %}" class="btn btn-secondary">Отменить</a>
         </div>
     </form>
 </div>

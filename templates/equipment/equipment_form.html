@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Equipment</title>
+    <title>Добавить оборудование</title>
 </head>
 <body>
     {% extends "base.html" %}
     {% block content %}
-    <h1>Add Equipment</h1>
+    <h1>Добавить оборудование</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

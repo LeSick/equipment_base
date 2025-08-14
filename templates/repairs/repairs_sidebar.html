@@ -2,21 +2,21 @@
 
 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
     <div class="sidebar-sticky">
-        <!-- Legal Entity Dropdown -->
+        <!-- Выпадающий список Юридических лиц -->
         <div class="dropdown mt-3">
             <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" type="button" id="legalEntityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="d-inline-block text-truncate" style="max-width: 100%;">
                     {% if request.GET.legal_entity %}
                         {{ legal_entities|get_by_id:request.GET.legal_entity }}
                     {% else %}
-                        All Legal Entities
+                        Все юридические лица
                     {% endif %}
                 </span>
             </button>
             <ul class="dropdown-menu w-100" aria-labelledby="legalEntityDropdown">
                 <li>
                     <a class="dropdown-item {% if not request.GET.legal_entity %}active{% endif %}" href="{% url 'repairs:repairs_list' %}">
-                        All Legal Entities
+                        Все юридические лица
                     </a>
                 </li>
                 {% for entity in legal_entities %}
@@ -29,7 +29,7 @@
             </ul>
         </div>
 
-        <!-- Shop Dropdown -->
+        <!-- Выпадающий список Цехов -->
         {% if shops %}
         <div class="dropdown mt-3">
             <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" type="button" id="shopDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -37,14 +37,14 @@
                     {% if request.GET.shop %}
                         {{ shops|get_by_id:request.GET.shop }}
                     {% else %}
-                        All Shops
+                        Все цеха
                     {% endif %}
                 </span>
             </button>
             <ul class="dropdown-menu w-100" aria-labelledby="shopDropdown">
                 <li>
                     <a class="dropdown-item {% if not request.GET.shop %}active{% endif %}" href="{% url 'repairs:repairs_list' %}?legal_entity={{ request.GET.legal_entity|default:'' }}">
-                        All Shops
+                        Все цеха
                     </a>
                 </li>
                 {% for shop in shops %}
@@ -58,7 +58,7 @@
         </div>
         {% endif %}
 
-        <!-- Position Dropdown -->
+        <!-- Выпадающий список Позиций -->
         {% if positions %}
         <div class="dropdown mt-3">
             <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" type="button" id="positionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -66,7 +66,7 @@
                     {% if request.GET.equipment_pos %}
                         {{ positions|get_by_id:request.GET.equipment_pos }}
                     {% else %}
-                        All Positions
+                        Все позиции
                     {% endif %}
                 </span>
             </button>
@@ -74,7 +74,7 @@
                 <li>
                     <a class="dropdown-item {% if not request.GET.equipment_pos %}active{% endif %}"
                        href="{% url 'repairs:repairs_list' %}?legal_entity={{ request.GET.legal_entity|default:'' }}&shop={{ request.GET.shop|default:'' }}">
-                        All Positions
+                        Все позиции
                     </a>
                 </li>
                 {% for pos in positions %}
@@ -90,19 +90,19 @@
         </div>
         {% endif %}
 
-        <!-- Start Date Filter -->
+        <!-- Фильтр по дате начала -->
         <form method="get" class="mt-3 px-2">
             <div class="mb-2">
-                <label for="start_date_from" class="form-label">Start Date From</label>
+                <label for="start_date_from" class="form-label">Дата начала с</label>
                 <input type="date" id="start_date_from" name="start_date_from" class="form-control"
                        value="{{ start_date_from|default_if_none:'' }}">
             </div>
             <div class="mb-2">
-                <label for="start_date_to" class="form-label">Start Date To</label>
+                <label for="start_date_to" class="form-label">Дата начала по</label>
                 <input type="date" id="start_date_to" name="start_date_to" class="form-control"
                        value="{{ start_date_to|default_if_none:'' }}">
             </div>
-            <!-- Preserve other filters -->
+            <!-- Сохранить другие фильтры -->
             {% if request.GET.legal_entity %}
                 <input type="hidden" name="legal_entity" value="{{ request.GET.legal_entity }}">
             {% endif %}
@@ -112,12 +112,12 @@
             {% if request.GET.equipment_pos %}
                 <input type="hidden" name="equipment_pos" value="{{ request.GET.equipment_pos }}">
             {% endif %}
-            <button type="submit" class="btn btn-primary w-100">Filter by Start Date</button>
+            <button type="submit" class="btn btn-primary w-100">Фильтровать по дате начала</button>
         </form>
 
-        <!-- Add Repair Entry Button -->
+        <!-- Кнопка добавления ремонта -->
         <div class="mt-4">
-            <a href="{% url 'repairs:repairs_add' %}" class="btn btn-success w-100">Add Repair Entry</a>
+            <a href="{% url 'repairs:repairs_add' %}" class="btn btn-success w-100">Добавить ремонт</a>
         </div>
     </div>
 </nav>

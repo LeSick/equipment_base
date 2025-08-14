@@ -6,22 +6,22 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">Repairs List</h1>
+    <h1 class="mb-4">Журнал ремонтов</h1>
     {% include 'includes/pagination.html' %}
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>#</th>
-                <th>Position</th>
-                <th>Equipment Name</th>
-                <th>Shop Name</th>
-                <th>Legal Entity</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>Reason</th>
-                <th>Job</th>
-                <th>Duration (hrs)</th>
-                <th>Note</th>
+                <th>Позиция</th>
+                <th>Название оборудования</th>
+                <th>Название цеха</th>
+                <th>Юридическое лицо</th>
+                <th>Начало</th>
+                <th>Окончание</th>
+                <th>Причина ремонта</th>
+                <th>Проведенные работы</th>
+                <th>Длительность (часы)</th>
+                <th>Примечание</th>
             </tr>
         </thead>
         <tbody>
@@ -41,7 +41,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="11" class="text-center">No repairs found.</td>
+                <td colspan="11" class="text-center">Записей не обнаружено.</td>
             </tr>
             {% endfor %}
         </tbody>
