@@ -57,3 +57,6 @@ coverage.xml
 
 # MyPy
 .mypy_cache/
+
+# Jupyter Notebooks
+**/*.ipynb
