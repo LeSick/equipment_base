@@ -60,3 +60,5 @@ coverage.xml
 
 # Jupyter Notebooks
 **/*.ipynb
+
+tmp/*
