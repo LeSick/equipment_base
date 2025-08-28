@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
     function updateShopsAndPositions(row) {
-        const legalEntitySelect = row.querySelector('select[name$="legal_entity"]');
+        const legalEntitySelect = row.querySelector('select[name$="legalentity"]');
         const shopSelect = row.querySelector('select[name$="shop"]');
-        const equipmentPosSelect = row.querySelector('select[name$="equipment_pos"]');
+        const equipmentPosSelect = row.querySelector('select[name$="pos"]');
 
         if (!legalEntitySelect || !shopSelect || !equipmentPosSelect) return;
 
         // Update shops when legal entity changes
         legalEntitySelect.addEventListener('change', function() {
-            fetch(`/repairs/ajax/get-shops/?legal_entity=${this.value}`)
+            fetch(`/repairs/ajax/get-shops/?legalentity=${this.value}`)
                 .then(response => response.json())
                 .then(data => {
                     shopSelect.innerHTML = '<option value="">---------</option>';
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update equipment positions when shop changes
         shopSelect.addEventListener('change', function() {
             const legalEntityId = legalEntitySelect.value;
-            fetch(`/repairs/ajax/get-equipment-positions/?legal_entity=${legalEntityId}&shop=${this.value}`)
+            fetch(`/repairs/ajax/get-equipment-positions/?legalentity=${legalEntityId}&shop=${this.value}`)
                 .then(response => response.json())
                 .then(data => {
                     equipmentPosSelect.innerHTML = '<option value="">---------</option>';

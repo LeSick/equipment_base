@@ -22,26 +22,28 @@
                 <th>Проведенные работы</th>
                 <th>Длительность (часы)</th>
                 <th>Примечание</th>
+                <th>Тип ремонта</th>
             </tr>
         </thead>
         <tbody>
             {% for repair in page_obj %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ repair.equipment_pos.pos }}</td>
-                <td>{{ repair.equipment_pos.equipment_name.name }}</td>
-                <td>{{ repair.equipment_pos.shop.name }}</td>
-                <td>{{ repair.legal_entity }}</td>
+                <td>{{ repair.pos.pos }}</td>
+                <td>{{ repair.equipment_name.name }}</td>
+                <td>{{ repair.shop.name }}</td>
+                <td>{{ repair.legalentity.name }}</td>
                 <td>{{ repair.start }}</td>
                 <td>{{ repair.end }}</td>
-                <td>{{ repair.reason }}</td>
-                <td>{{ repair.job }}</td>
+                <td>{{ repair.reason.reason }}</td>
+                <td>{{ repair.job.job }}</td>
                 <td>{{ repair.duration }}</td>
                 <td>{{ repair.note }}</td>
+                <td>{{ repair.repair_type.name }}</td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="11" class="text-center">Записей не обнаружено.</td>
+                <td colspan="12" class="text-center">Записей не обнаружено.</td>
             </tr>
             {% endfor %}
         </tbody>

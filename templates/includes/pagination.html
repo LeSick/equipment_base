@@ -3,7 +3,15 @@
         <!-- First Page Link -->
         {% if page_obj.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="?page=1" aria-label="First">
+            <a class="page-link"
+               href="?page=1
+               {% if legal_entity_id %}&legalentity={{ legal_entity_id }}{% endif %}
+               {% if department_id %}&department={{ department_id }}{% endif %}
+               {% if shop_id %}&shop={{ shop_id }}{% endif %}
+               {% if equipment_pos_id %}&pos={{ equipment_pos_id }}{% endif %}
+               {% if start_date_from %}&start_date_from={{ start_date_from }}{% endif %}
+               {% if start_date_to %}&start_date_to={{ start_date_to }}{% endif %}"
+               aria-label="First">
                 <span aria-hidden="true">&laquo;&laquo;</span>
             </a>
         </li>
@@ -12,7 +20,15 @@
         <!-- Previous Page Link -->
         {% if page_obj.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+            <a class="page-link"
+               href="?page={{ page_obj.previous_page_number }}
+               {% if legal_entity_id %}&legalentity={{ legal_entity_id }}{% endif %}
+               {% if department_id %}&department={{ department_id }}{% endif %}
+               {% if shop_id %}&shop={{ shop_id }}{% endif %}
+               {% if equipment_pos_id %}&pos={{ equipment_pos_id }}{% endif %}
+               {% if start_date_from %}&start_date_from={{ start_date_from }}{% endif %}
+               {% if start_date_to %}&start_date_to={{ start_date_to }}{% endif %}"
+               aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
@@ -22,7 +38,16 @@
         {% for num in page_obj.paginator.page_range %}
         {% if num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
         <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            <a class="page-link"
+               href="?page={{ num }}
+               {% if legal_entity_id %}&legalentity={{ legal_entity_id }}{% endif %}
+               {% if department_id %}&department={{ department_id }}{% endif %}
+               {% if shop_id %}&shop={{ shop_id }}{% endif %}
+               {% if equipment_pos_id %}&pos={{ equipment_pos_id }}{% endif %}
+               {% if start_date_from %}&start_date_from={{ start_date_from }}{% endif %}
+               {% if start_date_to %}&start_date_to={{ start_date_to }}{% endif %}">
+                {{ num }}
+            </a>
         </li>
         {% endif %}
         {% endfor %}
@@ -30,7 +55,15 @@
         <!-- Next Page Link -->
         {% if page_obj.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+            <a class="page-link"
+               href="?page={{ page_obj.next_page_number }}
+               {% if legal_entity_id %}&legalentity={{ legal_entity_id }}{% endif %}
+               {% if department_id %}&department={{ department_id }}{% endif %}
+               {% if shop_id %}&shop={{ shop_id }}{% endif %}
+               {% if equipment_pos_id %}&pos={{ equipment_pos_id }}{% endif %}
+               {% if start_date_from %}&start_date_from={{ start_date_from }}{% endif %}
+               {% if start_date_to %}&start_date_to={{ start_date_to }}{% endif %}"
+               aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
@@ -39,7 +72,15 @@
         <!-- Last Page Link -->
         {% if page_obj.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+            <a class="page-link"
+               href="?page={{ page_obj.paginator.num_pages }}
+               {% if legal_entity_id %}&legalentity={{ legal_entity_id }}{% endif %}
+               {% if department_id %}&department={{ department_id }}{% endif %}
+               {% if shop_id %}&shop={{ shop_id }}{% endif %}
+               {% if equipment_pos_id %}&pos={{ equipment_pos_id }}{% endif %}
+               {% if start_date_from %}&start_date_from={{ start_date_from }}{% endif %}
+               {% if start_date_to %}&start_date_to={{ start_date_to }}{% endif %}"
+               aria-label="Last">
                 <span aria-hidden="true">&raquo;&raquo;</span>
             </a>
         </li>

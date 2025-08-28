@@ -2,12 +2,13 @@
 
 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
     <div class="sidebar-sticky">
-        <!-- Выпадающий список Юридических лиц -->
+
+        <!-- Юридические лица -->
         <div class="dropdown mt-3">
             <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" type="button" id="legalEntityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="d-inline-block text-truncate" style="max-width: 100%;">
-                    {% if request.GET.legal_entity %}
-                        {{ legal_entities|get_by_id:request.GET.legal_entity }}
+                <span class="d-inline-block text-truncate">
+                    {% if selected_entity %}
+                        {{ selected_entity.name }}
                     {% else %}
                         Все юридические лица
                     {% endif %}
@@ -15,13 +16,15 @@
             </button>
             <ul class="dropdown-menu w-100" aria-labelledby="legalEntityDropdown">
                 <li>
-                    <a class="dropdown-item {% if not request.GET.legal_entity %}active{% endif %}" href="{% url 'repairs:repairs_list' %}">
+                    <a class="dropdown-item {% if not selected_entity %}active{% endif %}"
+                       href="{% url 'repairs:repairs_list' %}?start_date_from={{ start_date_from|default_if_none:'' }}&start_date_to={{ start_date_to|default_if_none:'' }}&department={{ selected_department.id|default_if_none:'' }}&shop={{ selected_shop.id|default_if_none:'' }}&pos={{ selected_pos.id|default_if_none:'' }}">
                         Все юридические лица
                     </a>
                 </li>
                 {% for entity in legal_entities %}
                 <li>
-                    <a class="dropdown-item text-truncate {% if request.GET.legal_entity == entity.id|stringformat:"s" %}active{% endif %}" style="max-width: 100%;" href="{% url 'repairs:repairs_list' %}?legal_entity={{ entity.id }}">
+                    <a class="dropdown-item text-truncate {% if selected_entity and entity.id == selected_entity.id %}active{% endif %}"
+                       href="{% url 'repairs:repairs_list' %}?legalentity={{ entity.id }}&department={{ selected_department.id|default_if_none:'' }}&shop={{ selected_shop.id|default_if_none:'' }}&pos={{ selected_pos.id|default_if_none:'' }}&start_date_from={{ start_date_from|default_if_none:'' }}&start_date_to={{ start_date_to|default_if_none:'' }}">
                         {{ entity.name }}
                     </a>
                 </li>
@@ -29,13 +32,44 @@
             </ul>
         </div>
 
-        <!-- Выпадающий список Цехов -->
+        <!-- Подразделения -->
+        {% if departments %}
+        <div class="dropdown mt-3">
+            <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" type="button" id="departmentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="d-inline-block text-truncate">
+                    {% if selected_department %}
+                        {{ selected_department.name }}
+                    {% else %}
+                        Все подразделения
+                    {% endif %}
+                </span>
+            </button>
+            <ul class="dropdown-menu w-100" aria-labelledby="departmentDropdown">
+                <li>
+                    <a class="dropdown-item {% if not selected_department %}active{% endif %}"
+                       href="{% url 'repairs:repairs_list' %}?legalentity={{ selected_entity.id|default_if_none:'' }}&shop={{ selected_shop.id|default_if_none:'' }}&pos={{ selected_pos.id|default_if_none:'' }}&start_date_from={{ start_date_from|default_if_none:'' }}&start_date_to={{ start_date_to|default_if_none:'' }}">
+                        Все подразделения
+                    </a>
+                </li>
+                {% for department in departments %}
+                <li>
+                    <a class="dropdown-item text-truncate {% if selected_department and department.id == selected_department.id %}active{% endif %}"
+                       href="{% url 'repairs:repairs_list' %}?legalentity={{ selected_entity.id|default_if_none:'' }}&department={{ department.id }}&shop={{ selected_shop.id|default_if_none:'' }}&pos={{ selected_pos.id|default_if_none:'' }}&start_date_from={{ start_date_from|default_if_none:'' }}&start_date_to={{ start_date_to|default_if_none:'' }}">
+                        {{ department.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Цеха -->
         {% if shops %}
         <div class="dropdown mt-3">
             <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" type="button" id="shopDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="d-inline-block text-truncate" style="max-width: 100%;">
-                    {% if request.GET.shop %}
-                        {{ shops|get_by_id:request.GET.shop }}
+                <span class="d-inline-block text-truncate">
+                    {% if selected_shop %}
+                        {{ selected_shop.name }}
                     {% else %}
                         Все цеха
                     {% endif %}
@@ -43,13 +77,15 @@
             </button>
             <ul class="dropdown-menu w-100" aria-labelledby="shopDropdown">
                 <li>
-                    <a class="dropdown-item {% if not request.GET.shop %}active{% endif %}" href="{% url 'repairs:repairs_list' %}?legal_entity={{ request.GET.legal_entity|default:'' }}">
+                    <a class="dropdown-item {% if not selected_shop %}active{% endif %}"
+                       href="{% url 'repairs:repairs_list' %}?legalentity={{ selected_entity.id|default_if_none:'' }}&department={{ selected_department.id|default_if_none:'' }}&pos={{ selected_pos.id|default_if_none:'' }}&start_date_from={{ start_date_from|default_if_none:'' }}&start_date_to={{ start_date_to|default_if_none:'' }}">
                         Все цеха
                     </a>
                 </li>
                 {% for shop in shops %}
                 <li>
-                    <a class="dropdown-item text-truncate {% if request.GET.shop == shop.id|stringformat:"s" %}active{% endif %}" style="max-width: 100%;" href="{% url 'repairs:repairs_list' %}?legal_entity={{ request.GET.legal_entity|default:'' }}&shop={{ shop.id }}">
+                    <a class="dropdown-item text-truncate {% if selected_shop and shop.id == selected_shop.id %}active{% endif %}"
+                       href="{% url 'repairs:repairs_list' %}?legalentity={{ selected_entity.id|default_if_none:'' }}&department={{ selected_department.id|default_if_none:'' }}&shop={{ shop.id }}&pos={{ selected_pos.id|default_if_none:'' }}&start_date_from={{ start_date_from|default_if_none:'' }}&start_date_to={{ start_date_to|default_if_none:'' }}">
                         {{ shop.name }}
                     </a>
                 </li>
@@ -58,13 +94,13 @@
         </div>
         {% endif %}
 
-        <!-- Выпадающий список Позиций -->
+        <!-- Позиции -->
         {% if positions %}
         <div class="dropdown mt-3">
             <button class="btn btn-secondary dropdown-toggle w-100 text-truncate" type="button" id="positionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="d-inline-block text-truncate" style="max-width: 100%;">
-                    {% if request.GET.equipment_pos %}
-                        {{ positions|get_by_id:request.GET.equipment_pos }}
+                <span class="d-inline-block text-truncate">
+                    {% if selected_pos %}
+                        {{ selected_pos.pos }}
                     {% else %}
                         Все позиции
                     {% endif %}
@@ -72,16 +108,15 @@
             </button>
             <ul class="dropdown-menu w-100" aria-labelledby="positionDropdown">
                 <li>
-                    <a class="dropdown-item {% if not request.GET.equipment_pos %}active{% endif %}"
-                       href="{% url 'repairs:repairs_list' %}?legal_entity={{ request.GET.legal_entity|default:'' }}&shop={{ request.GET.shop|default:'' }}">
+                    <a class="dropdown-item {% if not selected_pos %}active{% endif %}"
+                       href="{% url 'repairs:repairs_list' %}?legalentity={{ selected_entity.id|default_if_none:'' }}&department={{ selected_department.id|default_if_none:'' }}&shop={{ selected_shop.id|default_if_none:'' }}&start_date_from={{ start_date_from|default_if_none:'' }}&start_date_to={{ start_date_to|default_if_none:'' }}">
                         Все позиции
                     </a>
                 </li>
                 {% for pos in positions %}
                 <li>
-                    <a class="dropdown-item text-truncate {% if request.GET.equipment_pos == pos.id|stringformat:"s" %}active{% endif %}"
-                       style="max-width: 100%;"
-                       href="{% url 'repairs:repairs_list' %}?legal_entity={{ request.GET.legal_entity|default:'' }}&shop={{ request.GET.shop|default:'' }}&equipment_pos={{ pos.id }}">
+                    <a class="dropdown-item text-truncate {% if selected_pos and pos.id == selected_pos.id %}active{% endif %}"
+                       href="{% url 'repairs:repairs_list' %}?legalentity={{ selected_entity.id|default_if_none:'' }}&department={{ selected_department.id|default_if_none:'' }}&shop={{ selected_shop.id|default_if_none:'' }}&pos={{ pos.id }}&start_date_from={{ start_date_from|default_if_none:'' }}&start_date_to={{ start_date_to|default_if_none:'' }}">
                         {{ pos.pos }}
                     </a>
                 </li>
@@ -102,15 +137,17 @@
                 <input type="date" id="start_date_to" name="start_date_to" class="form-control"
                        value="{{ start_date_to|default_if_none:'' }}">
             </div>
-            <!-- Сохранить другие фильтры -->
-            {% if request.GET.legal_entity %}
-                <input type="hidden" name="legal_entity" value="{{ request.GET.legal_entity }}">
+            {% if selected_entity %}
+                <input type="hidden" name="legalentity" value="{{ selected_entity.id }}">
             {% endif %}
-            {% if request.GET.shop %}
-                <input type="hidden" name="shop" value="{{ request.GET.shop }}">
+            {% if selected_department %}
+                <input type="hidden" name="department" value="{{ selected_department.id }}">
             {% endif %}
-            {% if request.GET.equipment_pos %}
-                <input type="hidden" name="equipment_pos" value="{{ request.GET.equipment_pos }}">
+            {% if selected_shop %}
+                <input type="hidden" name="shop" value="{{ selected_shop.id }}">
+            {% endif %}
+            {% if selected_pos %}
+                <input type="hidden" name="pos" value="{{ selected_pos.id }}">
             {% endif %}
             <button type="submit" class="btn btn-primary w-100">Фильтровать по дате начала</button>
         </form>
